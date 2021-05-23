@@ -32,12 +32,12 @@
 python fit_map.py --map {map} --draw {draw} --output {output}
 ```
 * 輸入
-map: `input/map`底下的地圖圖片(道路須為白色)
-draw: `input/draw`底下的使用者繪畫線條圖片
-output: 輸入output檔名(程式結束後會輸出到`output`資料夾底下)
+1. map: `input/map`底下的地圖圖片(道路須為白色)
+2. draw: `input/draw`底下的使用者繪畫線條圖片
+3. output: 輸入output檔名(程式結束後會輸出到`output`資料夾底下)
 * 輸出
-與原本地圖合併的輸出，會輸出到`output`底下
-只有路線的輸出，會輸出到`convert_binary/training_data/output底下`
+1. 與原本地圖合併的輸出，會輸出到`output`底下
+2. 只有路線的輸出，會輸出到`convert_binary/training_data/output底下`
 
 ```
 繪畫圖片輸入注意事項:
@@ -54,8 +54,8 @@ output: 輸入output檔名(程式結束後會輸出到`output`資料夾底下)
 ```
 python make_binary.py --binary {binary} --pairwise {pairwise} --base {base}
 ```
-binary: `0`代表要輸出紅綠色，可看見的結果，`1`代表要輸出成binary形式
-pairwise: `0`代表每一個地圖都會跟每一個線條圖案匹配做輸出，`1`代表地圖集跟圖案集只會一對一批配
+1. binary: `0`代表要輸出紅綠色，可看見的結果，`1`代表要輸出成binary形式
+2. pairwise: `0`代表每一個地圖都會跟每一個線條圖案匹配做輸出，`1`代表地圖集跟圖案集只會一對一批配
 base: 本次輸出的檔案名稱要以base為基準做累加
 * 輸入
 程式會自動分別去讀取`convert_binary/map`跟`convert_binary/draw`底下的檔案
