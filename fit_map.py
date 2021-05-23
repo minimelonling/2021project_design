@@ -73,7 +73,7 @@ def get_sequence(output, draw_road, detect_block):
     seq = [draw_road.pop(0)]
     a = 0
     it = 0
-    max_iter = 10000
+    max_iter = 500
     while len(draw_road) > 0 and it < max_iter:
         it += 1
         print(len(draw_road))
@@ -299,7 +299,7 @@ def change(output, img_arr, f):
                     # img_arr[i][j] = np.array([255, 0, 0])
 
 
-def fit_origin(output, map_arr, detect_block):
+def fit_origin(output, map_arr, out_arr, detect_block):
     for i in range(0, len(output)):
         for j in range(0, len(output[0])):
             if output[i][j][0] == 255 and output[i][j][1] == 255:
@@ -312,9 +312,17 @@ def fit_origin(output, map_arr, detect_block):
                                 flag = False
                         if flag:
                             map_arr[k][l] = [255, 0, 0]
+                            out_arr[k][l] = [255, 0, 0]
 
+def fix_size(arr):
+    tmp = np.array([])
+    if len(arr[0][0]) == 4:
+        for i in range(0, len(arr)):
+            for j in range(0, len(arr[0])):
+                tmp = np.append(tmp, np.delete(arr[i][j], 3, 0))
+        arr = np.resize(tmp, (len(arr), len(arr[0])))
 
-def map_draw_fit(map_arr, draw_arr):
+def map_draw_fit(map_arr, draw_arr, out_arr):
     detect_block = 20
     output = np.zeros(map_arr.shape).astype(np.uint8)
     change(output, map_arr, 1)
@@ -331,7 +339,7 @@ def map_draw_fit(map_arr, draw_arr):
     get_road(road, output, 1)
     seq = get_sequence(output, road, detect_block)
     fitted = fit_on_map(output_map, seq)
-    fit_origin(output_map, map_arr, 10)    
+    fit_origin(output_map, map_arr, out_arr, 10)    
 
     return output_map
 
@@ -344,17 +352,22 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     cur_path = os.path.dirname(__file__)
-    map_path = os.path.relpath("input/map/" + args.map, cur_path)
-    draw_path = os.path.relpath("input/draw/" + args.draw, cur_path)
-    output_path = os.path.relpath("output/" + args.output, cur_path)
+    map_path = os.path.relpath("./input/map/" + args.map, cur_path)
+    draw_path = os.path.relpath("./input/draw/" + args.draw, cur_path)
+    output_path = os.path.relpath("./output/" + args.output, cur_path)
 
     img_map = Image.open(map_path)
     map_size = img_map.size
     map_arr = np.array(img_map)
+    fix_size(map_arr)
     draw_arr = np.array(Image.open(draw_path).resize(map_size))
-    output = map_draw_fit(map_arr, draw_arr)
+    fix_size(draw_arr)
+    binary_arr = np.zeros(map_arr.shape).astype(np.uint8)
+    output = map_draw_fit(map_arr, draw_arr, binary_arr)
     img = Image.fromarray(map_arr)
     img.save(output_path)
+    img = Image.fromarray(binary_arr)
+    img.save("convert_binary/training_data/output/new_output.png")
 
     """
     for i in range(0, len(seq)):
