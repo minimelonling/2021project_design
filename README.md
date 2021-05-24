@@ -29,12 +29,13 @@
 * 位置: 主資料夾底下
 * 執行指令
 ```
-python fit_map.py --map {map} --draw {draw} --output {output}
+python fit_map.py --map {map} --draw {draw} --output {output} --binary_output {binary_output}
 ```
 * 輸入
 1. map: `input/map`底下的地圖圖片(道路須為白色)
 2. draw: `input/draw`底下的使用者繪畫線條圖片
 3. output: 輸入output檔名(程式結束後會輸出到`output`資料夾底下)
+4. binary_output: 輸入binary_output的檔名(程式結束後會輸出到`convert_binary/training_data/output`的資料夾底下)
 * 輸出
 1. 與原本地圖合併的輸出，會輸出到`output`底下
 2. 只有路線的輸出，會輸出到`convert_binary/training_data/output底下`

@@ -349,6 +349,7 @@ if __name__ == '__main__':
     parser.add_argument('--map', default='ex1.png', help='input map file name')
     parser.add_argument('--draw', default='a1.png', help='input draw file name')
     parser.add_argument('--output', default='output.png', help='output file name')
+    parser.add_argument('--binary_output', default='output.png', help='output file name')
     args = parser.parse_args()
 
     cur_path = os.path.dirname(__file__)
@@ -367,7 +368,7 @@ if __name__ == '__main__':
     img = Image.fromarray(map_arr)
     img.save(output_path)
     img = Image.fromarray(binary_arr)
-    img.save("convert_binary/training_data/output/new_output.png")
+    img.save("convert_binary/training_data/output/"+args.binary_output)
 
     """
     for i in range(0, len(seq)):
