@@ -44,7 +44,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     i = 0
-    size = (500, 500, 3) # output image size
+    size = (570, 1014, 3) # output image size
 
     # pairwise generate binary picture
     if args.pairwise == "1":
@@ -52,8 +52,8 @@ if __name__ == '__main__':
             if mapfile.endswith(".png") and drawfile.endswith(".png"):
                 map_path = os.path.join("map/", mapfile)
                 draw_path = os.path.join("draw/", drawfile)
-                map_array = np.array(Image.open(map_path).resize(size[0:2]))
-                draw_array = np.array(Image.open(draw_path).resize(size[0:2]))
+                map_array = np.array(Image.open(map_path).resize([size[1], size[0]]))
+                draw_array = np.array(Image.open(draw_path).resize([size[1], size[0]]))
                 output = np.zeros(size).astype(np.uint8)
                 change(map_array, 1, int(args.binary), output)
                 change(draw_array, 0, int(args.binary), output)
@@ -65,12 +65,13 @@ if __name__ == '__main__':
         for mapfile in os.listdir("map"):
             if mapfile.endswith(".png"):
                 map_path = os.path.join("map/", mapfile)
-                map_array = np.array(Image.open(map_path).resize(size[0:2]))
+                map_array = np.array(Image.open(map_path).resize([size[1], size[0]]))
                 for drawfile in os.listdir("draw"):
                     if drawfile.endswith(".png"):
                         draw_path = os.path.join("draw/", drawfile)
-                        draw_array = np.array(Image.open(draw_path).resize(size[0:2]))
+                        draw_array = np.array(Image.open(draw_path).resize([size[1], size[0]]))
                         output = np.zeros(size).astype(np.uint8)
+                        print(map_array.shape, draw_array.shape, output.shape)
                         change(map_array, 1, int(args.binary), output)
                         change(draw_array, 0, int(args.binary), output)
                         image = Image.fromarray(output)
